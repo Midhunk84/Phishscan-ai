@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Welcome to PhishScan AI</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    font-family: "Segoe UI", sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(270deg, #1f4037, #99f2c8);
+    background-size: 600% 600%;
+    animation: bgMove 15s ease infinite;
+    color: white;
+}
+
+@keyframes bgMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.glass {
+    width: 600px;
+    max-width: 90%;
+    padding: 50px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.45);
+    text-align: center;
+}
+
+h1 {
+    font-size: 32px;
+    margin-bottom: 20px;
+    animation: fadeInText 1s ease forwards;
+}
+
+p {
+    font-size: 16px;
+    line-height: 1.6;
+    opacity: 0;
+    animation: fadeInText 2s ease forwards;
+    animation-delay: 0.5s;
+}
+
+@keyframes fadeInText {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.continue-btn {
+    margin-top: 30px;
+    padding: 16px 35px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #0ba360;
+    background: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.continue-btn:hover {
+    background: #f1f1f1;
+    transform: scale(1.05);
+}
+</style>
+</head>
+
+<body>
+
+<div class="glass">
+    <h1>Welcome to PhishScan AI</h1>
+    <p>
+        Discover the power of <strong>AI-driven phishing detection</strong> with our state-of-the-art platform. 
+        PhishScan intelligently analyzes URLs in real-time, identifies potential threats, and provides a detailed security report to keep your data and credentials safe. 
+        Designed for both professionals and everyday users, this tool combines <strong>advanced risk assessment algorithms</strong> with an intuitive interface to help you browse the web confidently.
+    </p>
+
+    <button class="continue-btn" onclick="goToIndex()">Continue</button>
+</div>
+
+<script>
+function goToIndex() {
+    window.location.href = "index.html";
+}
+</script>
+
+</body>
+</html>

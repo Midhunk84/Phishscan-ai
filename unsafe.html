@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Unsafe Website</title>
+<style>
+*{box-sizing:border-box;font-family:"Segoe UI",sans-serif;margin:0;padding:0;}
+body{margin:0;height:100vh;display:flex;justify-content:center;align-items:center;
+background: linear-gradient(270deg, #cb2d3e, #ef473a);
+background-size:600% 600%;animation:bgMove 10s ease infinite;color:white;}
+@keyframes bgMove{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+.glass{width:520px;padding:40px;border-radius:20px;background:rgba(255,255,255,0.15);backdrop-filter:blur(20px);
+box-shadow:0 30px 60px rgba(0,0,0,0.45);text-align:center;}
+.circle{width:120px;height:120px;border-radius:50%;margin:auto;display:flex;align-items:center;justify-content:center;
+font-size:28px;font-weight:bold;background:conic-gradient(#ff4b2b 0% 80%, rgba(255,255,255,0.2) 80%);
+box-shadow:0 0 20px rgba(255,75,43,0.6);}
+.section{margin-top:30px;}
+.checks{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.check{background: rgba(0,0,0,0.25); padding:12px; border-radius:10px; font-size:14px;}
+.url-box,.keywords{background:rgba(0,0,0,0.25); padding:14px; border-radius:10px; font-size:14px; word-break:break-all; margin-top:8px;}
+.buttons{margin-top:30px;display:flex;justify-content:center;gap:20px;}
+.button{padding:14px 30px;border:none;border-radius:12px;font-weight:bold;cursor:pointer;transition:0.3s;}
+.button.continue{background:white;color:#cb2d3e;}
+.button.continue:hover{background:#f1f1f1;transform:scale(1.05);}
+.button.report{background:rgba(255,255,255,0.2);color:white;}
+.button.report:hover{background:rgba(255,255,255,0.35);transform:scale(1.05);}
+.detail {
+    background: rgba(0,0,0,0.25);
+    padding: 12px;
+    border-radius: 10px;
+    font-size: 14px;
+}
+.pass { border-left: 4px solid #00ffcc; }
+.fail { border-left: 4px solid #ff4b2b; }
+</style>
+</head>
+<body>
+
+<div class="glass">
+    <div class="circle" id="riskScore">80%</div>
+    <h1>Unsafe Website Detected</h1>
+    <p>High phishing risk found</p>
+
+    <div class="section">
+        <h3>SCANNED URL</h3>
+        <div class="url-box" id="scannedUrlBox">Loading...</div>
+    </div>
+
+    <div class="section">
+        <h3>DETECTED DANGER KEYWORDS</h3>
+        <div class="keywords" id="dangerKeywords">Loading...</div>
+        <div class="section">
+    <h3>SCAN DETAILS</h3>
+    <div class="checks" id="scanDetails"></div>
+</div>
+
+    </div>
+
+    <div class="buttons">
+        <button class="button continue" id="continueBtn">Continue</button>
+        <button class="button report" onclick="location.href='report.html'">Report</button>
+    </div>
+</div>
+<script>
+const scannedURL = localStorage.getItem("scannedURL") || "N/A";
+const riskScore = Number(localStorage.getItem("riskScore")) || 0;
+const indicators = JSON.parse(localStorage.getItem("riskIndicators")) || [];
+
+document.getElementById("scannedUrlBox").textContent = scannedURL;
+document.getElementById("riskScore").textContent = riskScore + "%";
+
+document.getElementById("dangerKeywords").textContent =
+    indicators.length ? indicators.join(", ") : "No major indicators";
+
+const checks = [
+    { name: "HTTPS Security", pass: scannedURL.startsWith("https://") },
+    { name: "URL Length Check", pass: scannedURL.length <= 75 },
+    { name: "IP Address Usage", pass: !/https?:\/\/\d+\.\d+\.\d+\.\d+/.test(scannedURL) },
+    { name: "Suspicious Keywords", pass: indicators.length === 0 }
+];
+
+const detailsBox = document.getElementById("scanDetails");
+checks.forEach(c => {
+    const div = document.createElement("div");
+    div.className = `detail ${c.pass ? "pass" : "fail"}`;
+    div.textContent = `${c.name}: ${c.pass ? "PASSED" : "FAILED"}`;
+    detailsBox.appendChild(div);
+});
+
+const circle = document.querySelector(".circle");
+circle.style.background = `conic-gradient(
+    #ff4b2b 0% ${riskScore}%,
+    rgba(255,255,255,0.2) ${riskScore}% 100%
+)`;
+
+document.getElementById("continueBtn").addEventListener("click", () => {
+    window.open(
+        scannedURL.startsWith("http") ? scannedURL : "https://" + scannedURL,
+        "_blank"
+    );
+});
+</script>
+
+
+</body>
+</html>
